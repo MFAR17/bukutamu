@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Buku Tamu</title>
+    <link href="../assets/css/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.4/dist/tesseract.min.js"></script>
+
+    <script>
+    function showForm(formId) {
+        document.getElementById('ktp-form').style.display = 'none';
+        document.getElementById('manual-form').style.display = 'none';
+        document.getElementById(formId).style.display = 'block';
+    }
+    </script>
+</head>
+
+<body>
+    <div>
+        <button onclick="showForm('ktp-form')">Isi dengan KTP</button>
+        <button onclick="showForm('manual-form')">Isi Manual</button>
+    </div>
+
+    <div id="ktp-form" style="display:none;">
+        <form action="submit_data_buku_tamu.php" method="post">
+    <label for="no_ktp">No KTP:</label>
+    <input type="text" id="no_ktp" name="no_ktp" placeholder="Scan or Enter KTP No" readonly><br>
+
+    <label for="scan_ktp">Scan KTP:</label>
+    <div id="video-container">
+        <video id="video" width="320" height="240" autoplay></video><br>
+    </div>
+    <button type="button" onclick="scanKTP()">Capture & Scan KTP</button><br>
+
+    <label for="tempat">Tempat:</label>
+    <select id="tempat" name="tempat">
+        <option value="tempat1">Tempat 1</option>
+        <option value="tempat2">Tempat 2</option>
+        <option value="tempat3">Tempat 3</option>
+    </select><br>
+
+    <label for="layanan">Layanan:</label>
+    <select id="layanan" name="layanan">
+        <option value="layanan1">Layanan 1</option>
+        <option value="layanan2">Layanan 2</option>
+        <option value="layanan3">Layanan 3</option>
+    </select><br>
+
+    <label for="name-ktp">Name:</label>
+    <input type="text" id="name-ktp" name="name" placeholder="Your Name"><br>
+
+    <label for="email-ktp">Email:</label>
+    <input type="text" id="email-ktp" name="email" placeholder="Your Email"><br>
+
+    <label for="message-ktp">Message:</label>
+    <textarea id="message-ktp" name="message" placeholder="Your Message"></textarea><br>
+
+    <div id="nik-container" style="display:none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+        <strong>Scanned NIK:</strong> <span id="scanned-nik"></span>
+    </div>
+
+    <!-- Live progress bar untuk menunjukkan kemajuan pemindaian KTP -->
+    <div id="progress-container" style="display: none; margin-top: 10px;">
+        <strong>Progress:</strong>
+        <progress id="progress-bar" value="0" max="100"></progress>
+    </div>
+
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    // Function to start the video stream when the page is loaded
+    function startVideo() {
+        // Access the user's camera and stream it to the video element
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                // Set the video stream as the source for the video element
+                document.getElementById('video').srcObject = stream;
+            })
+            .catch(err => {
+                // Handle any errors that occur while accessing the camera
+                console.error("Error accessing camera: " + err);
+                alert("Terjadi kesalahan saat mengakses kamera. Silakan periksa izin kamera Anda.");
+            });
+    }
+
+    // Function to scan the KTP
+    function scanKTP() {
+        const video = document.getElementById('video');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Display the progress bar container when scanning starts
+        document.getElementById('progress-container').style.display = 'block';
+
+        // Use Tesseract to recognize text from the captured image
+        Tesseract.recognize(
+            canvas.toDataURL('image/jpeg'), // Convert canvas image to base64 data URL
+            'eng', { // Specify language for recognition (you can change 'eng' to another language code if needed)
+                logger: m => { // Use logger to monitor recognition progress
+                    if (m.status === 'recognizing text') {
+                        // Update the progress bar value as recognition progresses
+                        document.getElementById('progress-bar').value = m.progress;
+                    }
+                }
+            }
+        ).then(({
+            data: {
+                text
+            }
+        }) => {
+            // Process the recognized text (extract NIK, display result, etc.)
+            const nik = extractNIK(text);
+            document.getElementById('no_ktp').value = nik;
+            if (nik) {
+                document.getElementById('scanned-nik').innerText = nik;
+                document.getElementById('nik-container').style.display = 'block';
+            } else {
+                alert("Tidak dapat memindai NIK dari KTP. Silakan coba lagi atau input NIK secara manual.");
+            }
+        }).catch(error => {
+            // Handle errors that occur during recognition
+            console.error("Terjadi kesalahan saat memindai KTP: ", error);
+            alert("Terjadi kesalahan saat memindai KTP. Silakan coba lagi.");
+        });
+    }
+
+    // Call the startVideo function when the window is loaded
+    window.onload = startVideo;
+</script>
+
+    </div>
+
+    <div id="manual-form" style="display:none;">
+        <form action="submit_data_buku_tamu.php" method="post">
+            <label for="noktp">No KTP:</label>
+            <input type="text" id="noktp" name="noktp" placeholder="No KTP"><br>
+
+            <label for="tempat">Tempat:</label>
+            <select id="tempat" name="tempat">
+                <option value="tempat1">Tempat 1</option>
+                <option value="tempat2">Tempat 2</option>
+                <option value="tempat3">Tempat 3</option>
+            </select><br>
+            <label for="layanan">Layanan:</label>
+            <select id="layanan" name="layanan">
+                <option value="layanan1">Layanan 1</option>
+                <option value="layanan2">Layanan 2</option>
+                <option value="layanan3">Layanan 3</option>
+            </select><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your Name"><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Your Email"><br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Your Message"></textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+
+</html>

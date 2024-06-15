@@ -1,0 +1,230 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #121212;
+    color: #fff;
+    display:contents;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: auto;
+    overflow-y: auto;
+}
+h2 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Container */
+div {
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    padding: 20px;
+    background: #1f1f1f;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo Styles */
+#logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sitename {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffc107;
+}
+
+/* Navbar Styles */
+#nav {
+    display: flex;
+    justify-content: center;
+}
+
+#nav ul {
+    display: flex;
+}
+
+#nav ul li {
+    margin: 0 10px;
+}
+
+#nav ul li a {
+    padding: 10px 20px;
+    color: #fff;
+    background: #343a40;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+#nav ul li a:hover {
+    background: #ffc107;
+    color: #343a40;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .sitename {
+        font-size: 18px;
+    }
+
+    #nav ul {
+        flex-direction: column;
+    }
+
+    #nav ul li {
+        margin-bottom: 10px;
+    }
+
+    #nav ul li a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+
+
+
+/*CSS Untuk form*/
+form {
+    background: #1f1f1f;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
+}
+#manual-form {
+    background: #1f1f1f;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form input[type="text"],
+form textarea {
+    width: 50%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #343a40;
+    border-radius: 4px;
+    background: #2d2d2d;
+    color: #fff;
+}
+
+form input[type="text"]::placeholder,
+form textarea::placeholder {
+    color: #aaa;
+}
+
+form input[type="submit"] {
+    background: #000000;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background: #00e04b;
+    color: rgb(0, 0, 0);
+}
+
+/* Reset styling for select element */
+select{
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #343a40;
+    border-radius: 4px;
+    background: #2d2d2d;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Styling when select element is hovered */
+select:hover {
+    border-color: #ffffff;
+}
+
+
+button{
+    background: #ff0000;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+
+#button-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+#select-form, #admin-button {
+    position: absolute;
+    top: 60px;
+}
+
+#select-form {
+    right: 180px;
+}
+
+#admin-button {
+    right: 20px;
+}
+
+
+
+
+
+
+#video {
+    transform: scaleX(-1); /* Untuk membalikkan video secara horizontal */
+}
+#message {
+    width: 300px; /* Atur lebar sesuai kebutuhan */
+    height: 100px; /* Atur tinggi sesuai kebutuhan */
+  }
+
+
+
+
+  
+  /* dropdown */
+  .custom-dropdown select {
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    cursor: pointer;
+  }
